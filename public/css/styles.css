@@ -41,10 +41,14 @@ h1 {
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-block: 2rem;
+}
+.feature-heading img {
+  width: 80%;
 }
 .featured-car .summary {
   position: absolute;
-  transform: translateX(-100%);
+  left: 3rem;
   padding: 1rem;
   background-color: #fffd;
   color: #036f8f;
