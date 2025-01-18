@@ -4,7 +4,7 @@ CREATE TYPE public.account_type AS ENUM
     ('Client', 'Employee', 'Admin');
 
 ALTER TYPE public.account_type
-    OWNER TO cse340database;
+    OWNER TO cse340;
 
 --***** Step 5 - Create The Tables -- not done *****
 --***** classification table - only typed code in vscode *****
@@ -245,9 +245,9 @@ VALUES   (
 --*************** Week 02 Assignment ***************
 --step 4
 UPDATE public.inventory 
-SET inv_description = REPLACE(inv_description, "small interiors", "a huge interior")
-WHERE inv_make = "GM" AND inv_model = "Hummer";
+SET inv_description = REPLACE(inv_description, 'small interiors', 'a huge interior')
+WHERE inv_make = 'GM' AND inv_model = 'Hummer';
 --step 6
 UPDATE public.inventory 
-SET inv_image = REPLACE(inv_image, "/images", "/images/vehicles"),
-    inv_thumbnail = REPLACE(inv_thumbnail, "/images", "/images/vehicles");
+SET inv_image = REPLACE(inv_image, '/images', '/images/vehicles'),
+    inv_thumbnail = REPLACE(inv_thumbnail, '/images', '/images/vehicles');

@@ -1,0 +1,17 @@
+1. on render.com, open the database, scroll to the bottom and click delete database
+2. on render.com, create a new postgre database. make sure the free version is selected
+3. remove the database connection from pgadmin
+4. connect the new database
+    1. right click 'servers' select 'regester -> 'server'
+    2. name cse340
+    3. turn off 'connect now'
+    4. copy the 'external database url' from render.com and insert it into 'hostname/address' in the connections tab
+        1. remove the start (up to / including '@')
+        2. remove '/' close to the end and everything after
+        - xxxxxxxxxxxxxxxx@....../xxxxx  ---- remove 'x', '@' and '/'
+    5. the port should be 5432
+    6. insert the database name from render.com into 'maintainence database' in pgadmin
+    7. insert the username from render.com into 'username' in pgadmin
+    8. change 'SSL Mode' in the 'parameters' tab to 'require'
+    9. click 'save'
+    10. connect to the database -> open the query tool -> run code from db-code.sql (change 'OWNER TO' line to end with database username)
