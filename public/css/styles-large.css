@@ -10,16 +10,4 @@
         background-color: #fff;
         border: solid 0.25rem #16a0c9;
     }
-
-    .extra-info {
-        grid-template-columns: 1fr 1fr;
-    }
-    .upgrades {
-        grid-column: 1 / 2;
-        grid-row: 1 / 2;
-    }
-    .reviews {
-        grid-column: 2 / 3;
-        grid-row: 1 / 2;
-    }
 }

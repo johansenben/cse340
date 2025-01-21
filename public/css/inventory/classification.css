@@ -1,0 +1,36 @@
+#inv-display{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+#inv-display li {
+    list-style: none;
+    border: 1px solid;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem;
+}
+#inv-display li > a {
+    width: 90%;
+    display: block;
+}
+#inv-display li img {
+    width: 100%;
+    object-fit: cover;
+    border-radius: 1rem;
+}
+.namePrice {
+    text-align: center;
+    width: 100%;
+}
+.namePrice h2 {
+    display: flex;
+    justify-content: center;
+    margin: 0;
+    font-size: 1.25rem;
+}
