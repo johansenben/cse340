@@ -15,4 +15,5 @@
     8. change 'SSL Mode' in the 'parameters' tab to 'require'
     9. click 'save'
     10. connect to the database -> open the query tool -> run code from db-code.sql (change 'OWNER TO' line to end with database username)
-    11. update DATABASE_URL in .env
+    11. update DATABASE_URL in .env to use external database url
+    12. update DATABASE_URL in the render.com app to use the internal database url

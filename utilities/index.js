@@ -29,7 +29,7 @@ Util.getNav = async function (req, res, next) {
 /* **************************************
 * Build the classification view HTML
 * ************************************ */
-Util.buildClassificationGrid = async function(data){
+Util.buildClassificationGrid = async function(data) {
   let grid;
   if(data.length > 0){
     grid = '<ul id="inv-display">';
@@ -57,6 +57,22 @@ Util.buildClassificationGrid = async function(data){
     grid += '<p class="notice">Sorry, no matching vehicles could be found.</p>';
   }
   return grid;
+}
+
+Util.buildDetailsCard = async function(data) {
+  let card = '';
+  const carName = `${data.inv_year} ${data.inv_make} ${data.inv_model}`;
+  card += 
+    `<div class="inv-details-card">
+      <img src="${data.inv_image}" alt="${carName}" class="inv-details-img">
+      <h1>${carName}</h1>
+      <p class="inv-details-price"><b>Price:</b> $${parseInt(data.inv_price).toLocaleString()}</p>
+      <p class="inv-details-mileage"><b>Mileage:</b> ${parseInt(data.inv_miles).toLocaleString()}</p>
+      <p class="inv-details-color"><b>Ext. Color:</b> ${data.inv_color ?? "unknown"}</p>
+      <p class="inv-details-desc"><b>Description:</b> ${data.inv_description}</p>
+    </div>
+    `;
+  return card;
 }
 
 /* ****************************************

@@ -19,4 +19,20 @@ invCont.buildByClassificationId = async function (req, res, next) {
   });
 }
 
+invCont.buildDetailsView = async function (req, res, next) {
+  const invId = req.params.inventoryId;
+  const data = await invModel.getDetailsByInvId(invId);
+  const card = await utilities.buildDetailsCard(data[0]);
+  const nav = await utilities.getNav();
+
+  const year = data[0].inv_year;
+  const model = data[0].inv_model;
+  const make = data[0].inv_make;
+  res.render("./inventory/details", {
+    title: year + ' ' + make + (model !== "Custom" ? ' ' + model : ''),
+    nav,
+    card
+  });
+}
+
 module.exports = invCont;

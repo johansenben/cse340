@@ -1,0 +1,10 @@
+@media (min-width: 600px) {
+     .inv-details-card {
+        display: block;
+     }
+     .inv-details-img {
+        float: left;
+        width: 50%;
+        margin: 1rem;
+     }
+}

@@ -1,0 +1,19 @@
+
+.inv-details-card {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+}
+h1 {
+    margin-block: 0.25rem;
+    text-align: center;
+}
+.inv-details-card p {
+    margin-block: 0.2rem;
+}
+.inv-details-img {
+    width: 80%;
+    border-radius: 1rem;
+    margin: 0 auto;
+}
