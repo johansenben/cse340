@@ -1,0 +1,12 @@
+<link rel="stylesheet" href="/css/inventory/management.css">
+<h1><%- title %></h1>
+<%- messages() %>
+<% if (errors) { %>
+    <ul class="notice">
+<% errors.array().forEach(error => { %>
+        <li><%= error.msg %></li>
+<%  }) %>
+    </ul>
+<% } %>
+<a href="/inv/management/add-classification">Add New Classification</a>
+<a href="/inv/management/add-inventory">Add New Vehicle</a>

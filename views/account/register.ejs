@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="styles/account/register.css">
+<link rel="stylesheet" href="/css/account/register.css">
 <h1><%- title %></h1>
 <%- messages() %>
 <% if (errors) { %>
@@ -10,14 +10,14 @@
 <% } %>
 <form action="/account/register" method="post">
     <label for="account_firstname">First Name</label>
-    <input type="text" name="account_firstname" id="account_firstname" required>
+    <input type="text" name="account_firstname" id="account_firstname" required value="<%= locals.account_firstname %>">
     <label for="account_lastname">Last Name</label>
-    <input type="text" name="account_lastname" id="account_lastname" required>
+    <input type="text" name="account_lastname" id="account_lastname" required value="<%= locals.account_lastname %>">
 
     <label for="account_email">Email</label>
-    <input type="email" name="account_email" id="account_email" required placeholder="Enter a valid email address">
+    <input type="email" name="account_email" id="account_email" required placeholder="Enter a valid email address" value="<%= locals.account_email %>">
     <label for="account_password">Password</label>
     <input type="password" name="account_password" id="account_password" required pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{12,}$">
-    <p>*Must include at least 12 characters, 1 capital, 1 number and 1 special character</p>
+    <p class="password-requirement">*Password must include at least 12 characters, 1 capital, 1 number and 1 special character</p>
     <button type="submit">Register</button>
 </form>

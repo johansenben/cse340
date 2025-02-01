@@ -1,0 +1,17 @@
+<link rel="stylesheet" href="/css/inventory/add-classification.css">
+<h1><%- title %></h1>
+<%- messages() %>
+<% if (errors) { %>
+    <ul class="notice">
+<% errors.array().forEach(error => { %>
+        <li><%= error.msg %></li>
+<%  }) %>
+    </ul>
+<% } %>
+<form action="/inv/management/add-classification" method="post">
+    <label for="classification_name">Classification Name</label>
+    <input type="text" name="classification_name" id="classification_name" required pattern="^[a-zA-Z0-9]*$" value="<%= locals.classification_name %>">
+    <p class="classification-requirement">*Name cannot include any spaces or special characters</p>
+    
+    <button type="submit">Add Classification</button>
+</form>

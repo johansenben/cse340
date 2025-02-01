@@ -1,6 +1,14 @@
+<link rel="stylesheet" href="/css/account/login.css">
 <h1><%- title %></h1>
 <%- messages() %>
-<form action="">
+<% if (errors) { %>
+    <ul class="notice">
+<% errors.array().forEach(error => { %>
+        <li><%= error.msg %></li>
+<%  }) %>
+    </ul>
+<% } %>
+<form action="/account/login" method="post">
     <label for="account_email">Email</label>
     <input type="email" name="account_email" id="account_email" required>
     <label for="account_password">Password</label>

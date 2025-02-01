@@ -1,0 +1,9 @@
+main {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+h1 {
+    margin-block: 0.5rem;
+}
