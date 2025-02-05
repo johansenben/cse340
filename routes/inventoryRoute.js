@@ -12,9 +12,9 @@ router.get("/type/:classificationId", utilities.handleErrors(invController.build
 router.get("/detail/:inventoryId", utilities.handleErrors(invController.buildDetailsView));
 
 //managment routes
-router.get("/management", utilities.handleErrors(invController.buildManagementView));
-router.get("/management/add-classification", utilities.handleErrors(invController.buildAddClassificationView));
-router.get("/management/add-inventory", utilities.handleErrors(invController.buildAddInventoryView));
+router.get("/", utilities.handleErrors(invController.buildManagementView));
+router.get("/add-classification", utilities.handleErrors(invController.buildAddClassificationView));
+router.get("/add-inventory", utilities.handleErrors(invController.buildAddInventoryView));
 
 //post request for classification creation
 router.post(

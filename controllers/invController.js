@@ -67,14 +67,14 @@ invCont.addClassification = async function (req, res) {
       "notice",
       `Classification: ${classification_name} Created`
     );
-    res.status(201).render("inventory/management", {
+    res.status(201).render("./inventory/management", {
       title: "Inventory Management",
       nav,
       errors: null
     });
   } else {
     req.flash("notice", "Failed to add classification")
-    res.status(501).render("inventory/add-classification", {
+    res.status(501).render("./inventory/add-classification", {
       title: "Add Classification",
       nav,
       errors: null
