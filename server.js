@@ -8,17 +8,20 @@
 const express = require("express");
 const expressLayouts = require("express-ejs-layouts");
 const env = require("dotenv").config();
-const app = express();
+const cookieParser = require("cookie-parser");
+const bodyParser = require("body-parser");
+const session = require("express-session");
+
+/** routes */
 const static = require("./routes/static");
-const baseController = require("./controllers/baseController")
+const baseController = require("./controllers/baseController");
 const inventoryRoute = require("./routes/inventoryRoute");
 const intentionalErrorRoute = require("./routes/intentionalErrorRoute");
 const utilities = require("./utilities/");
-const session = require("express-session");
-const pool = require("./database/");
 const accountRoute = require("./routes/accountRoute");
-const bodyParser = require("body-parser")
-
+/** setup and additional local require statements */
+const app = express();
+const pool = require("./database/");
 
 
 /* ***********************
@@ -40,8 +43,12 @@ app.use(function(req, res, next){
   res.locals.messages = require('express-messages')(req, res)
   next();
 });
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
+app.use(cookieParser());
+app.use(utilities.checkJWTToken);
+
 
 /* ***********************
  * View Engine and Templates

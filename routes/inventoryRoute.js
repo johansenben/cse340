@@ -29,5 +29,18 @@ router.post(
     regValidate.checkAddInventoryRegData,
     utilities.handleErrors(invController.addInventory));
 
+//returns json with all inventory items in classifiaction
+router.get("/getInventory/:classification_id", utilities.handleErrors(invController.getInventoryJSON))
+
+//edit an inventory item
+router.get("/edit/:inventory_id", utilities.handleErrors(invController.buildEditInventoryView));
+router.post(
+    "/update/", 
+    regValidate.inventoryUpdateRules(),
+    regValidate.checkUpdateData,
+    utilities.handleErrors(invController.updateInventory));
+//delete an inventory item
+//router.get("/delete/:inventory_id", utilities.handleErrors());
+
 
 module.exports = router;
