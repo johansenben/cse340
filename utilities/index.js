@@ -32,7 +32,7 @@ Util.getNav = async function (req, res, next) {
 * Build the classification view HTML
 * ************************************ */
 Util.buildClassificationGrid = async function(data) {
-  let grid;
+  let grid = '';
   if(data.length > 0){
     grid = '<ul id="inv-display">';
     data.forEach(vehicle => { 
@@ -138,6 +138,24 @@ Util.checkJWTToken = (req, res, next) => {
     return res.redirect("/account/login");
   }
  }
+
+  /* ****************************************
+ *  Check if employee or admin/ not basic
+ * ************************************ */
+  Util.checkEmployeeOrAdmin = (req, res, next) => {
+    if (res.locals.loggedin && res.locals.accountData) {
+      const accountType = res.locals.accountData.account_type;
+      if (accountType == "Employee" || accountType == "Admin")
+        next();
+      else {
+        req.flash("notice", "Must an be Admin or Employee account");
+        return res.redirect("/account/login");
+      }
+    } else {
+      req.flash("notice", "Please log in.");
+      return res.redirect("/account/login");
+    }
+   }
 
 
 module.exports = Util;

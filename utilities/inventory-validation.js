@@ -7,7 +7,7 @@ const validate = {}
 /*  **********************************
   *  Registration Data Validation Rules
   * ********************************* */
-validate.AddClassificationRegistationRules = () => {
+validate.AddClassificationRules = () => {
     return [
       // classification name
       body("classification_name")
@@ -31,7 +31,7 @@ validate.AddClassificationRegistationRules = () => {
   /* ******************************
  * Check data and return errors or continue to registration
  * ***************************** */
-validate.checkAddClassificationRegData = async (req, res, next) => {
+validate.checkAddClassificationData = async (req, res, next) => {
     const { classification_name } = req.body;
     let errors = [];
     errors = validationResult(req);
@@ -48,7 +48,7 @@ validate.checkAddClassificationRegData = async (req, res, next) => {
     next();
   }
 
-validate.AddInventoryRegistationRules = () => {
+validate.AddInventoryRules = () => {
     return [
       body("inv_make")
         .trim().escape().notEmpty().isLength({ min: 1 })
@@ -93,7 +93,7 @@ validate.AddInventoryRegistationRules = () => {
   /* ******************************
  * Check data and return errors or continue to registration
  * ***************************** */
-validate.checkAddInventoryRegData = async (req, res, next) => {
+validate.checkAddInventoryData = async (req, res, next) => {
     const { inv_make, inv_model, inv_year, inv_description, inv_image, inv_thumbnail, inv_price, inv_miles, inv_color, classification_id } = req.body;
     let errors = [];
     errors = validationResult(req);

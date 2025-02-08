@@ -17,8 +17,10 @@
     <input type="number" name="inv_year" id="inv_year" required pattern="^[0-9]{4}$" value="<%= locals.inv_year %>">
     <label for="inv_description">Description</label>
     <input type="text" name="inv_description" id="inv_description" required value="<%= locals.inv_description %>">
-    <input type="text" name="inv_image" id="inv_image" required value="<%= locals.inv_image %>">
-    <input type="text" name="inv_thumbnail" id="inv_thumbnail" required value="<%= locals.inv_thumbnail %>">
+    <label for="inv_image">Image</label>
+    <input type="text" name="inv_image" id="inv_image" required value="<%- locals.inv_image %>">
+    <label for="inv_thumbnail">Thumbnail</label>
+    <input type="text" name="inv_thumbnail" id="inv_thumbnail" required value="<%- locals.inv_thumbnail %>">
     <label for="inv_price">Price</label>
     <input type="number" name="inv_price" id="inv_price" required pattern="^[0-9]+$" value="<%= locals.inv_price %>" min="0">
     <label for="inv_miles">Mileage</label>

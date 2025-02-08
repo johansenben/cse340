@@ -89,7 +89,7 @@ async function accountLogin(req, res) {
       title: "Login",
       nav,
       errors: null,
-      account_email,
+      account_email
     });
     return;
   }
@@ -105,12 +105,12 @@ async function accountLogin(req, res) {
       return res.redirect("/account/");
     }
     else {
-      req.flash("message notice", "Please check your credentials and try again.");
+      req.flash("notice", "Please check your credentials and try again.");
       res.status(400).render("account/login", {
         title: "Login",
         nav,
         errors: null,
-        account_email,
+        account_email
       });
     }
   } catch (error) {
@@ -126,5 +126,125 @@ const buildLoggedInScreen = async (req, res, next) => {
         errors: null
     });
 }
+
+const buildManageView = async (req, res, next) => {
+  let nav = await utilities.getNav();
+  res.render("account/update", {
+    title: "Manage Account",
+    nav,
+    errors: null,
+    account_firstname: res.locals.accountData.account_firstname,
+    account_lastname: res.locals.accountData.account_lastname,
+    account_email: res.locals.accountData.account_email,
+    account_id: res.locals.accountData.account_id
+  });
+}
+
+const logout = async (req, res) => {
+  if (req.cookies.jwt)
+    res.clearCookie("jwt");
+  res.status(200).redirect('/'); //go to home
+}
+
+const updateAccount = async (req, res) => {
+  let nav = await utilities.getNav();
+  const { account_firstname, account_lastname, account_email, account_id } = req.body;
+  const accountData = await accountModel.updateAccount(account_firstname, account_lastname, account_email, account_id);
+  if (accountData) {
+    try {
+      const accessToken = jwt.sign(accountData, process.env.ACCESS_TOKEN_SECRET, { expiresIn: 3600 * 1000 });
+      if(process.env.NODE_ENV === 'development') {
+        res.cookie("jwt", accessToken, { httpOnly: true, maxAge: 3600 * 1000 });
+      } else {
+        res.cookie("jwt", accessToken, { httpOnly: true, secure: true, maxAge: 3600 * 1000 });
+      }
+      req.flash("notice", "Account Data Updated");
+      res.status(201).render("account/update", {
+        title: "Manage Account",
+        nav,
+        errors: null,
+        account_firstname,
+        account_lastname,
+        account_email,
+        account_id
+      });
+      return;
+    } catch (error) {
+      req.flash("notice", "Error in updating account")
+    }
+  } else {
+    req.flash("notice", "Account Data Missing")
+  }
+  res.render("account/update", {
+    title: "Manage Account",
+    nav,
+    errors: null,
+    account_firstname,
+    account_lastname,
+    account_email,
+    account_id
+  });
+}
+
+const changePassword = async (req, res) => {
+  let nav = await utilities.getNav();
+  const { account_password, confirm_password, account_id } = req.body;
+  if (account_password != confirm_password) {
+    req.flash("notice", "Passwords must match.");
+    res.status(400).render("account/update", {
+      title: "Manage Account",
+      nav,
+      errors: null,
+      account_firstname: res.locals.accountData.account_firstname,
+      account_lastname: res.locals.accountData.account_lastname,
+      account_email: res.locals.accountData.account_email,
+      account_id: res.locals.accountData.account_id
+    });
+    return;
+  }
+  // Hash the password before storing
+  let hashedPassword;
+  try {
+    // regular password and cost (salt is generated automatically)
+    hashedPassword = await bcrypt.hashSync(account_password, 10);
+  } catch (error) {
+    req.flash("notice", 'password change failed');
+    res.status(500).render("account/update", {
+      title: "Manage Account",
+      nav,
+      errors: null,
+      account_firstname: res.locals.accountData.account_firstname,
+      account_lastname: res.locals.accountData.account_lastname,
+      account_email: res.locals.accountData.account_email,
+      account_id: res.locals.accountData.account_id
+    });
+    return;
+  }
+
+  const result = accountModel.changePassword(hashedPassword, account_id);
+  if (result) {
+    req.flash("notice", "Password Changed");
+    res.status(201).render("account/update", {
+      title: "Manage Account",
+      nav,
+      errors: null,
+      account_firstname: res.locals.accountData.account_firstname,
+      account_lastname: res.locals.accountData.account_lastname,
+      account_email: res.locals.accountData.account_email,
+      account_id: res.locals.accountData.account_id
+    });
+  } else {
+    req.flash("notice", "Failed to change password");
+    res.status(501).render("account/update", {
+      title: "Manage Account",
+      nav,
+      errors: null,
+      account_firstname: res.locals.accountData.account_firstname,
+      account_lastname: res.locals.accountData.account_lastname,
+      account_email: res.locals.accountData.account_email,
+      account_id: res.locals.accountData.account_id
+    });
+  }
+}
   
-module.exports = { buildLogin, buildRegistration, registerAccount, accountLogin, buildLoggedInScreen }
+module.exports = { buildLogin, buildRegistration, registerAccount, accountLogin, buildLoggedInScreen, buildManageView, updateAccount, changePassword, logout }

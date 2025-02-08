@@ -34,6 +34,11 @@ nav ul a {
   text-decoration: none;
 }
 
+#tools {
+  display: flex;
+  gap: 1rem;
+}
+
 
 
 footer p {

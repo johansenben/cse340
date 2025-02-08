@@ -3,20 +3,38 @@ const express = require("express");
 const router = new express.Router();
 const accountController = require("../controllers/accountController");
 const utilities = require("../utilities/");
-const regValidate = require('../utilities/account-validation');
+const accountValidate = require('../utilities/account-validation');
 
 //account route (after login)
 router.get('/', utilities.checkLogin, accountController.buildLoggedInScreen);
 // Route to login
 router.get("/login", utilities.handleErrors(accountController.buildLogin));
+// Route to log out
+router.get("/logout", utilities.checkLogin, utilities.handleErrors(accountController.logout));
 //route to registration
 router.get("/registration", utilities.handleErrors(accountController.buildRegistration));
+//route to account management
+router.get("/update", utilities.checkLogin, utilities.handleErrors(accountController.buildManageView));
+//post request to update account data
+router.post(
+    "/update", 
+    utilities.checkLogin, 
+    accountValidate.updateRules(),
+    accountValidate.checkUpdateData,
+    utilities.handleErrors(accountController.updateAccount));
+//post request to change passwor
+router.post(
+    "/change-password", 
+    utilities.checkLogin, 
+    accountValidate.passwordRules(),
+    accountValidate.checkPasswordData,
+    utilities.handleErrors(accountController.changePassword));
 
 //post request for account creation
 router.post(
     "/register", 
-    regValidate.registationRules(),
-    regValidate.checkRegData,
+    accountValidate.registationRules(),
+    accountValidate.checkRegData,
     utilities.handleErrors(accountController.registerAccount));
 
 // Process the login attempt
