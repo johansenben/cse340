@@ -44,7 +44,8 @@ invCont.buildManagementView = async function (req, res, next) {
     title: "Inventory Management",
     nav,
     classificationSelect,
-    errors: null
+    errors: null,
+    classificationManagement: await utilities.buildClassificationManagement()
   });
 }
 
@@ -69,11 +70,6 @@ invCont.addClassification = async function (req, res) {
       "notice",
       `Classification: ${classification_name} Created`
     );
-    // res.status(201).render("./inventory/management", {
-    //   title: "Inventory Management",
-    //   nav,
-    //   errors: null
-    // });
     res.status(201).redirect("/inv");
   } else {
     req.flash("notice", "Failed to add classification")
@@ -109,12 +105,6 @@ console.log(result, inv_image, inv_thumbnail, classification_id)
       "notice",
       `Vehicle Added`
     );
-    // res.status(201).render("inventory/management", {
-    //   title: "Inventory Management",
-    //   nav,
-    //   errors: null,
-    //   classificationSelect: await utilities.buildClassificationList()
-    // });
     res.status(201).redirect("/inv");
 
   } else {
@@ -200,7 +190,7 @@ invCont.buildDeleteInventoryView = async function (req, res, next) {
   const inv_id = parseInt(req.params.inventory_id);
   const nav = await utilities.getNav();
   const data = (await invModel.getDetailsByInvId(inv_id))[0];
-  const classificationList = await utilities.buildClassificationList(data.classification_id);
+  //const classificationList = await utilities.buildClassificationList(data.classification_id);
   const itemName = `${data.inv_make} ${data.inv_model}`
   res.render("./inventory/delete-confirm", {
     title: "Confirm Delete - " + itemName,
@@ -231,6 +221,68 @@ invCont.deleteInventory = async function (req, res) {
       nav,
       errors: null,
       inv_make, inv_model, inv_year, inv_price, inv_id
+    });
+  }
+}
+
+invCont.buildEditClassification = async (req, res) => {
+  const classification_id = req.params.classification_id;
+  const classification_name = await invModel.getClassificationName(classification_id);
+  const nav = await utilities.getNav();
+  res.render("inventory/edit-classification", {
+    title: "Edit " + classification_name,
+    nav,
+    errors: null,
+    classification_id, classification_name
+  });
+}
+
+invCont.editClassification = async (req, res) => {
+  const { classification_id, classification_name } = req.body;
+  const result = await invModel.editClassification(classification_id, classification_name);
+  const nav = await utilities.getNav();
+
+  if (result) {
+    req.flash("notice", `${classification_name} was successfully updated.`);
+    res.redirect("/inv/");
+  } else {
+    req.flash("notice", "Failed to update classification");
+    res.status(501).render("inventory/edit-classification", {
+      title: "Edit " + classification_name,
+      nav,
+      errors: null,
+      classification_id, classification_name
+    });
+  }
+}
+
+invCont.buildDeleteClassification = async (req, res) => {
+  const classification_id = req.params.classification_id;
+  const classification_name = await invModel.getClassificationName(classification_id);
+  const nav = await utilities.getNav();
+  res.render("inventory/delete-classification", {
+    title: "Confirm Delete " + classification_name,
+    nav,
+    errors: null,
+    classification_id, classification_name
+  });
+}
+
+invCont.deleteClassification = async (req, res) => {
+  const { classification_id, classification_name } = req.body;
+  const result = await invModel.deleteClassification(classification_id);
+  const nav = await utilities.getNav();
+
+  if (result) {
+    req.flash("notice", `${classification_name} was successfully deleted.`);
+    res.redirect("/inv/");
+  } else {
+    req.flash("notice", "Failed to delete classification");
+    res.status(501).render("inventory/delete-classification", {
+      title: "Confirm Delete " + classification_name,
+      nav,
+      errors: null,
+      classification_id, classification_name
     });
   }
 }

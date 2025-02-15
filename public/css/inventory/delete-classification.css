@@ -1,0 +1,22 @@
+main {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+form {
+    display: flex;
+    flex-direction: column;
+    width: min(50%, 500px);
+    gap: 0.5rem;
+}
+label {
+    font-weight: bold;
+}
+input {
+    width: 100%;
+}
+button {
+    width: min(50%, 10rem);
+    margin: 0 auto;
+}

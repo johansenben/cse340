@@ -246,5 +246,31 @@ const changePassword = async (req, res) => {
     });
   }
 }
+
+const buildDeleteAccount = async (req, res) => {
+  let nav = await utilities.getNav();
+  res.render("account/delete-account", {
+    title: "Confirm: Delete Account",
+    nav,
+    errors: null,
+    account_id: res.locals.accountData.account_id
+  });
+}
+const deleteAccount = async (req, res) => {
+  const { account_id } = req.body;
+  const result = await accountModel.deleteAccount(account_id);
+  if (result) {
+    req.flash("notice", "Account Deleted");
+    logout(req, res);
+  } else {
+    req.flash("notice", "Failed to delete account!");
+    res.status(501).render("account/delete-account", {
+      title: "Confirm: Delete Account",
+      nav,
+      errors: null,
+      account_id: res.locals.accountData.account_id
+    });
+  }
+}
   
-module.exports = { buildLogin, buildRegistration, registerAccount, accountLogin, buildLoggedInScreen, buildManageView, updateAccount, changePassword, logout }
+module.exports = { buildLogin, buildRegistration, registerAccount, accountLogin, buildLoggedInScreen, buildManageView, updateAccount, changePassword, logout, buildDeleteAccount, deleteAccount }

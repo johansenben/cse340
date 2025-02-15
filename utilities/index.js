@@ -157,5 +157,20 @@ Util.checkJWTToken = (req, res, next) => {
     }
    }
 
+Util.buildClassificationManagement = async () => {
+  const classifications = (await invModel.getClassifications()).rows;console.log(classifications)
+  let html = "<div>";
+  classifications.forEach((classification) => {
+    html += `
+      <div class="classification-management">
+        <h3>${classification.classification_name}</h3>
+        <a href="/inv/edit-classification/${classification.classification_id}">Edit</a>
+        <a href="/inv/delete-classification/${classification.classification_id}">Delete</a>
+      </div>
+    `;
+  });
+  html += "</div>";
+  return html;
+}
 
 module.exports = Util;

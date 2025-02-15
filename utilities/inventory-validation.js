@@ -173,4 +173,42 @@ validate.checkUpdateData = async (req, res, next) => {
   next();
 }
   
+validate.editClassificationRules = () => {
+  return [
+    // classification name
+    body("classification_name")
+      .trim()
+      .escape()
+      .notEmpty()
+      .isLength({ min: 1 })
+      .matches(/^[a-zA-Z0-9]*$/)
+      .withMessage("Classification name can't include spaces or special characters.")
+      .custom(async (classification_name) => {
+          const classificationExists = await invModel.checkExistingClassification(classification_name);
+          if (classificationExists){
+              throw new Error("Classification already exists")
+          }
+      })
+      .withMessage("Please provide an new and unused classification name with no spaces or special character."), // on error this message is sent.
+  ];
+}
+
+validate.checkEditClassificationData = async (req, res, next) => {
+  const { classification_name, classification_id } = req.body;
+  let errors = [];
+  errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    let nav = await utilities.getNav();
+    res.render("inventory/edit-classification", {
+      errors,
+      title: "Edit " + classification_name,
+      nav,
+      classification_name, classification_id
+    });
+    return;
+  }
+  next();
+}
+
+
 module.exports = validate;

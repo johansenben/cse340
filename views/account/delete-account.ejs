@@ -1,0 +1,15 @@
+<link rel="stylesheet" href="/css/account/delete-account.css">
+<h1><%- title %></h1>
+<%- messages() %>
+<% if (errors) { %>
+    <ul class="notice">
+<% errors.array().forEach(error => { %>
+        <li><%= error.msg %></li>
+<%  }) %>
+    </ul>
+<% } %>
+<form action="/account/delete-account" method="post">
+    <button type="submit">Delete Account</button>
+    <p>*Warning: Account cannot be recovered after being deleted!</p>
+    <input type="hidden" name="account_id" id="account_id_pw" value="<%= locals.account_id %>">
+</form>

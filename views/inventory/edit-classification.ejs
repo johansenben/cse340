@@ -1,0 +1,16 @@
+<link rel="stylesheet" href="/css/inventory/edit-classification.css">
+<h1><%- title %></h1>
+<%- messages() %>
+<% if (errors) { %>
+    <ul class="notice">
+<% errors.array().forEach(error => { %>
+        <li><%= error.msg %></li>
+<%  }) %>
+    </ul>
+<% } %>
+<form action="/inv/edit-classification" method="post">
+    <label for="classification_name">Name</label>
+    <input type="text" name="classification_name" id="classification_name" required value="<%= locals.classification_name %>">
+    <button type="submit">Update Classification</button>
+    <input type="hidden" name="classification_id" <% if(locals.classification_id) { %> value="<%= locals.classification_id %>"<% } %>>
+</form>

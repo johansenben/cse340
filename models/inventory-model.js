@@ -4,7 +4,7 @@ const pool = require("../database/");
  *  Get all classification data
  * ************************** */
 async function getClassifications(){
-  return await pool.query("SELECT * FROM public.classification ORDER BY classification_name")
+  return await pool.query("SELECT * FROM public.classification ORDER BY classification_name");
 };
 async function getClassificationName(classification_id){
     try {
@@ -118,4 +118,28 @@ async function deleteInventory(inv_id){
       }
 }
 
-module.exports = { getClassifications, getClassificationName, getInventoryByClassificationId, getDetailsByInvId, addClassification, addInventory, checkExistingClassification, isClassificationIdUsed, updateInventory, deleteInventory };
+const editClassification = async (classification_id, classification_name) => {
+    try {
+        const sql =
+            "UPDATE public.classification SET classification_name = $1 WHERE classification_id = $2 RETURNING *";
+        const data = await pool.query(sql, [classification_name, classification_id]);
+        return data.rows[0];
+    } catch (error) {
+        console.error("model error: " + error);
+    }
+}
+const deleteClassification = async (classification_id) => {
+    try {
+        const sql =
+            "DELETE FROM public.inventory WHERE classification_id = $1 RETURNING *";
+        await pool.query(sql, [classification_id]);
+        const sql2 = 
+            "DELETE FROM public.classification WHERE classification_id = $1 RETURNING *";
+        const data = await pool.query(sql2, [classification_id]);
+        return data;
+    } catch (error) {
+        console.error("model error: " + error);
+    }
+}
+
+module.exports = { getClassifications, getClassificationName, getInventoryByClassificationId, getDetailsByInvId, addClassification, addInventory, checkExistingClassification, isClassificationIdUsed, updateInventory, deleteInventory, editClassification, deleteClassification };

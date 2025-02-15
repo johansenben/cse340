@@ -45,6 +45,18 @@ router.post(
     utilities.handleErrors(accountController.accountLogin)
 );
 
+//delet account
+router.get(
+    "/delete-account",
+    utilities.checkLogin,
+    utilities.handleErrors(accountController.buildDeleteAccount)
+);
+router.post(
+    "/delete-account",
+    utilities.checkLogin,
+    utilities.handleErrors(accountController.deleteAccount)
+);
+
 module.exports = router;
 
 /**

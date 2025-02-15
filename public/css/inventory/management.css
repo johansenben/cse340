@@ -3,6 +3,9 @@ main {
     align-items: center;
     flex-direction: column;
     gap: 0.5rem;
+    box-sizing: border-box;
+    padding-inline: 2rem;
+    text-align: center;
 }
 h1 {
     margin-block: 0.5rem;
@@ -12,4 +15,22 @@ h2, select {
 }
 p {
     margin: 0
+}
+.classification-management {
+    display: grid;
+    grid-template-columns: 3fr 1fr 1fr;
+    align-items: center;
+    justify-content: center;
+    margin-block: 0.5rem;
+}
+.classification-management > * {
+    margin: auto;
+}
+.classification-management > a {
+    text-decoration: none;
+    color: blue;
+    transition: transform 0.5s ease;
+}
+.classification-management > a:hover {
+    transform: scale(1.1);
 }

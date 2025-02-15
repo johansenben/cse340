@@ -1,0 +1,17 @@
+<link rel="stylesheet" href="/css/inventory/delete-classification.css">
+<h1><%- title %></h1>
+<%- messages() %>
+<% if (errors) { %>
+    <ul class="notice">
+<% errors.array().forEach(error => { %>
+        <li><%= error.msg %></li>
+<%  }) %>
+    </ul>
+<% } %>
+<form action="/inv/delete-classification" method="post">
+    <label for="classification_name">Name</label>
+    <input type="text" name="classification_name" id="classification_name" required value="<%= locals.classification_name %>" readonly>
+    <button type="submit">Delete Classification</button>
+    <p class="info">*Delete is Permanent. All vehicles in the classification group will be deleted too!</p>
+    <input type="hidden" name="classification_id" <% if(locals.classification_id) { %> value="<%= locals.classification_id %>"<% } %>>
+</form>

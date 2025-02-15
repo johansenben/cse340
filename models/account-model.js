@@ -72,4 +72,15 @@ const updateAccount = async (account_firstname, account_lastname, account_email,
   }
 }
 
-module.exports = { registerAccount, checkExistingEmail, getAccountByEmail, changePassword, updateAccount, getAccountById }
+const deleteAccount = async (account_id) => {
+  try {
+    const result = await pool.query(
+      "DELETE FROM account WHERE account_id = $1 RETURNING *",
+      [account_id]);
+    return result;
+  } catch (error) {
+    return new Error("couldn't delete account");
+  }
+}
+
+module.exports = { registerAccount, checkExistingEmail, getAccountByEmail, changePassword, updateAccount, getAccountById, deleteAccount }

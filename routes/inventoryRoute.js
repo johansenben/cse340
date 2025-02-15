@@ -35,7 +35,7 @@ router.post(
 router.get("/getInventory/:classification_id", utilities.handleErrors(invController.getInventoryJSON))
 
 //edit an inventory item
-router.get("/edit/:inventory_id",utilities.checkLogin, utilities.checkEmployeeOrAdmin, utilities.handleErrors(invController.buildEditInventoryView));
+router.get("/edit/:inventory_id", utilities.checkLogin, utilities.checkEmployeeOrAdmin, utilities.handleErrors(invController.buildEditInventoryView));
 router.post(
     "/update/", 
     utilities.checkLogin, utilities.checkEmployeeOrAdmin,
@@ -43,8 +43,23 @@ router.post(
     invValidate.checkUpdateData,
     utilities.handleErrors(invController.updateInventory));
 //delete an inventory item
-router.get("/delete/:inventory_id",utilities.checkLogin, utilities.checkEmployeeOrAdmin, utilities.handleErrors(invController.buildDeleteInventoryView));
-router.post("/delete/",utilities.checkLogin, utilities.checkEmployeeOrAdmin, utilities.handleErrors(invController.deleteInventory))
+router.get("/delete/:inventory_id", utilities.checkLogin, utilities.checkEmployeeOrAdmin, utilities.handleErrors(invController.buildDeleteInventoryView));
+router.post("/delete/", utilities.checkLogin, utilities.checkEmployeeOrAdmin, utilities.handleErrors(invController.deleteInventory));
+
+//edit classification
+router.get("/edit-classification/:classification_id", utilities.checkLogin, utilities.checkEmployeeOrAdmin, utilities.handleErrors(invController.buildEditClassification));
+router.post(
+    "/edit-classification", 
+    utilities.checkLogin, 
+    utilities.checkEmployeeOrAdmin, 
+    invValidate.editClassificationRules(),
+    invValidate.checkEditClassificationData,
+    utilities.handleErrors(invController.editClassification)
+);
+//delete classification
+router.get("/delete-classification/:classification_id", utilities.checkLogin, utilities.checkEmployeeOrAdmin, utilities.handleErrors(invController.buildDeleteClassification));
+router.post("/delete-classification", utilities.checkLogin, utilities.checkEmployeeOrAdmin, utilities.handleErrors(invController.deleteClassification));
+
 
 
 module.exports = router;
